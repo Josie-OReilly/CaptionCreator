@@ -4,40 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Josie's Repository</title>
-  <style>
-    /* Optional: Basic CSS Reset / Minimal Styling */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-    header, main, footer {
-      padding: 1rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    header {
-      background-color: #f5f5f5;
-    }
-    footer {
-      background-color: #f5f5f5;
-      text-align: center;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <header>
-    <h1>Josie O'Reilly's Little Repo</h1>
+    <!-- Navigation will be injected here -->
+    <div id="nav-placeholder"></div>
+    <h1>Josie's Repository</h1>
   </header>
 
   <main>
     <h2>About This Page</h2>
-    <p>Just the beginning of my website, more to come in the future :)</p>
+    <p>
+      Just a simple website I'm currently using as a repository for all my other outlets :)
+    </p>
   </main>
 
   <footer>
-    <p>&copy; Josie's Repository</p>
+    <p>&copy; 2025 Josie's Repository</p>
   </footer>
 
+  <script>
+    // Dynamically load the shared navigation
+    fetch('navigation.html')
+      .then(response => response.text())
+      .then(navHtml => {
+        document.getElementById('nav-placeholder').innerHTML = navHtml;
+      })
+      .catch(err => console.error('Error fetching navigation:', err));
+  </script>
 </body>
 </html>

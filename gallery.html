@@ -4,42 +4,11 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Gallery</title>
-  <style>
-    /* Basic styling */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-    header, main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    figure {
-      margin: 0;
-      border: 1px solid #ccc;
-      background: #fff;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    figure img {
-      width: 100%;
-      display: block;
-    }
-    figcaption {
-      padding: 0.5rem;
-      text-align: center;
-      background: #fafafa;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
+    <div id="nav-placeholder"></div>
     <h1>My Image Gallery</h1>
   </header>
   <main>
@@ -71,5 +40,16 @@
       })
       .catch(err => console.error('Error loading images:', err));
   </script>
+
+<script>
+  // Dynamically load the shared navigation
+  fetch('navigation.html')
+    .then(response => response.text())
+    .then(navHtml => {
+      document.getElementById('nav-placeholder').innerHTML = navHtml;
+    })
+    .catch(err => console.error('Error fetching navigation:', err));
+</script>
+
 </body>
 </html>

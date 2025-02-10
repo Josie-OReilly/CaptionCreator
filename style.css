@@ -1,0 +1,105 @@
+/* style.css */
+
+/* Dark Theme Color Variables */
+:root {
+	--bg-color: #121212;       /* Main page background */
+	--text-color: #ffffff;     /* Main text color */
+	--header-bg: #1e1e1e;      /* Header background */
+	--footer-bg: #1e1e1e;      /* Footer background */
+	--accent-color: #ff9800;   /* Link / accent color */
+	--card-bg: #2a2a2a;        /* Card or figure background */
+	--border-color: #444;      /* Border color for cards, etc. */
+  }
+  
+  /* Base styling */
+  body {
+	margin: 0;
+	background-color: var(--bg-color);
+	color: var(--text-color);
+	font-family: Arial, sans-serif;
+  }
+  
+  header, main, footer {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 1rem;
+  }
+  
+  /* Header */
+  header {
+	background-color: var(--header-bg);
+	margin-bottom: 1rem;
+  }
+  
+  header h1 {
+	margin: 0;
+  }
+  
+  /* Navigation placeholder styling */
+  #nav-placeholder nav {
+	display: flex;
+	gap: 1rem;
+	margin-bottom: 1rem; /* Add some spacing below nav */
+  }
+  
+  #nav-placeholder ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	gap: 1rem;
+  }
+  
+  #nav-placeholder a {
+	text-decoration: none;
+	color: var(--accent-color);
+	transition: color 0.2s;
+  }
+  
+  #nav-placeholder a:hover {
+	color: #ffd452;
+  }
+  
+  /* Footer */
+  footer {
+	background-color: var(--footer-bg);
+	text-align: center;
+  }
+  
+  footer p {
+	margin: 0;
+  }
+  
+  /* Gallery-specific styles */
+  .gallery {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 1rem;
+  }
+  
+  .gallery figure {
+	margin: 0;
+	background-color: var(--card-bg);
+	border: 1px solid var(--border-color);
+	border-radius: 4px;
+	overflow: hidden;
+	transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .gallery figure:hover {
+	transform: scale(1.02);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .gallery img {
+	width: 100%;
+	height: auto;
+	display: block;
+  }
+  
+  .gallery figcaption {
+	padding: 0.5rem;
+	text-align: center;
+	font-size: 0.9rem;
+	background-color: var(--header-bg);
+  }  
