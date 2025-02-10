@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Gallery</title>
+  <style>
+    /* Basic styling */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    header, main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    figure {
+      margin: 0;
+      border: 1px solid #ccc;
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    figure img {
+      width: 100%;
+      display: block;
+    }
+    figcaption {
+      padding: 0.5rem;
+      text-align: center;
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Image Gallery</h1>
+  </header>
+  <main>
+    <section class="gallery" id="gallery"></section>
+  </main>
+
+  <script>
+    fetch('images.json') // The JSON file with your image data
+      .then(response => response.json())
+      .then(data => {
+        const galleryContainer = document.getElementById('gallery');
+
+        data.forEach(item => {
+          // Create elements
+          const figure = document.createElement('figure');
+          const img = document.createElement('img');
+          const caption = document.createElement('figcaption');
+
+          // Set image src, alt, and caption
+          img.src = 'CaptionImages/' + item.filename;
+          img.alt = item.caption || 'Gallery image';
+          caption.textContent = item.caption || '';
+
+          // Assemble the figure
+          figure.appendChild(img);
+          figure.appendChild(caption);
+          galleryContainer.appendChild(figure);
+        });
+      })
+      .catch(err => console.error('Error loading images:', err));
+  </script>
+</body>
+</html>
