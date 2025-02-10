@@ -20,21 +20,32 @@
       .then(response => response.json())
       .then(data => {
         const galleryContainer = document.getElementById('gallery');
-
+  
         data.forEach(item => {
-          // Create elements
+          // Create figure
           const figure = document.createElement('figure');
+  
+          // Create the anchor that wraps the image
+          const link = document.createElement('a');
+          link.href = 'CaptionImages/' + item.filename;   // Full-size image
+          link.target = '_blank';                        // Open in new tab
+          link.rel = 'noopener';                          // Security best practice
+  
+          // Create the image
           const img = document.createElement('img');
-          const caption = document.createElement('figcaption');
-
-          // Set image src, alt, and caption
           img.src = 'CaptionImages/' + item.filename;
           img.alt = item.caption || 'Gallery image';
+  
+          // Create the caption
+          const caption = document.createElement('figcaption');
           caption.textContent = item.caption || '';
-
-          // Assemble the figure
-          figure.appendChild(img);
+  
+          // Build the structure
+          link.appendChild(img);      // <a> contains <img>
+          figure.appendChild(link);   // <figure> contains <a> (and thus the <img>)
           figure.appendChild(caption);
+  
+          // Add to the gallery container
           galleryContainer.appendChild(figure);
         });
       })
