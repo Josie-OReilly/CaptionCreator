@@ -28,13 +28,23 @@ fs.readdir(IMAGES_DIR, (err, files) => {
   const validExtensions = /\.(jpe?g|png|gif|webp|svg)$/i;
   const imageFiles = files.filter(file => validExtensions.test(file));
 
-  // Build an array of objects for each image
-  const imageData = imageFiles.map(file => {
+  // Build an array of objects for each image with their modification time
+  let imageData = imageFiles.map(file => {
+    const filePath = path.join(IMAGES_DIR, file);
+    const stats = fs.statSync(filePath);
     return {
       filename: file,
-      caption: deriveCaption(file)
+      caption: deriveCaption(file),
+      // Store modification time for sorting
+      mtime: stats.mtime
     };
   });
+
+  // Sort images in ascending order (oldest first) based on modification time
+  imageData.sort((a, b) => a.mtime - b.mtime);
+
+  // Remove the mtime property if it's not needed in the JSON output
+  imageData = imageData.map(({ filename, caption }) => ({ filename, caption }));
 
   // Write the array to images.json
   fs.writeFile(OUTPUT_JSON, JSON.stringify(imageData, null, 2), (err) => {
@@ -42,6 +52,6 @@ fs.readdir(IMAGES_DIR, (err, files) => {
       console.error('Error writing images.json:', err);
       process.exit(1);
     }
-    console.log('images.json has been updated!');
+    console.log('images.json has been updated in date order!');
   });
 });
