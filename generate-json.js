@@ -8,7 +8,6 @@ const IMAGES_DIR = path.join(__dirname, 'CaptionImages');
 const OUTPUT_JSON = path.join(__dirname, 'images.json');
 
 // Optional: Provide a function to derive a caption from the filename
-// For example, remove file extension and replace hyphens/underscores with spaces.
 function deriveCaption(filename) {
   // Remove file extension
   const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
@@ -40,8 +39,8 @@ fs.readdir(IMAGES_DIR, (err, files) => {
     };
   });
 
-  // Sort images in ascending order (oldest first) based on modification time
-  imageData.sort((a, b) => a.mtime - b.mtime);
+  // Sort images in descending order (newest first) based on modification time
+  imageData.sort((a, b) => b.mtime - a.mtime);
 
   // Remove the mtime property if it's not needed in the JSON output
   imageData = imageData.map(({ filename, caption }) => ({ filename, caption }));
@@ -52,6 +51,6 @@ fs.readdir(IMAGES_DIR, (err, files) => {
       console.error('Error writing images.json:', err);
       process.exit(1);
     }
-    console.log('images.json has been updated in date order!');
+    console.log('images.json has been updated with newer images at the top!');
   });
 });
