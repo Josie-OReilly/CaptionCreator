@@ -102,4 +102,33 @@
 	text-align: center;
 	font-size: 0.9rem;
 	background-color: var(--header-bg);
-  }  
+  }
+  
+  /* Pagination Controls (add these if you're implementing pagination) */
+  .pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 1rem; /* Spacing below the gallery or above the footer */
+  }
+  
+  .pagination button {
+	padding: 0.5rem 1rem;
+	background-color: var(--card-bg);
+	color: var(--accent-color);
+	border: 1px solid var(--border-color);
+	border-radius: 4px;
+	cursor: pointer;
+  }
+  
+  .pagination button[disabled] {
+	opacity: 0.4;
+	cursor: not-allowed;
+  }
+  
+  .pagination span {
+	font-weight: bold;
+	color: var(--accent-color);
+  }
+  

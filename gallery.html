@@ -7,60 +7,113 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div id="nav-placeholder"></div>
-    <h1>My Image Gallery</h1>
-  </header>
+
   <main>
+    <h1>My Paginated Gallery</h1>
+    
+    <!-- The gallery container -->
     <section class="gallery" id="gallery"></section>
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+      <button id="prevBtn">Previous</button>
+      <span id="pageInfo"></span>
+      <button id="nextBtn">Next</button>
+    </div>
   </main>
 
   <script>
-    fetch('images.json') // The JSON file with your image data
+    // Configuration
+    const IMAGES_PER_PAGE = 6;  // Adjust how many images you want per page
+
+    // State variables
+    let currentPage = 1;
+    let totalPages = 1;
+    let allImagesData = [];
+
+    // Elements
+    const galleryContainer = document.getElementById('gallery');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageInfo = document.getElementById('pageInfo');
+
+    // 1. Fetch data from images.json
+    fetch('images.json')
       .then(response => response.json())
       .then(data => {
-        const galleryContainer = document.getElementById('gallery');
-  
-        data.forEach(item => {
-          // Create figure
-          const figure = document.createElement('figure');
-  
-          // Create the anchor that wraps the image
-          const link = document.createElement('a');
-          link.href = 'CaptionImages/' + item.filename;   // Full-size image
-          link.target = '_blank';                        // Open in new tab
-          link.rel = 'noopener';                          // Security best practice
-  
-          // Create the image
-          const img = document.createElement('img');
-          img.src = 'CaptionImages/' + item.filename;
-          img.alt = item.caption || 'Gallery image';
-  
-          // Create the caption
-          const caption = document.createElement('figcaption');
-          caption.textContent = item.caption || '';
-  
-          // Build the structure
-          link.appendChild(img);      // <a> contains <img>
-          figure.appendChild(link);   // <figure> contains <a> (and thus the <img>)
-          figure.appendChild(caption);
-  
-          // Add to the gallery container
-          galleryContainer.appendChild(figure);
-        });
+        allImagesData = data;
+        totalPages = Math.ceil(allImagesData.length / IMAGES_PER_PAGE);
+
+        // Display initial page
+        renderPage(currentPage);
+        updatePaginationButtons();
       })
       .catch(err => console.error('Error loading images:', err));
+
+    // 2. Render a specific page of the gallery
+    function renderPage(pageNumber) {
+      // Clear current gallery
+      galleryContainer.innerHTML = '';
+
+      // Calculate start/end indexes
+      const startIndex = (pageNumber - 1) * IMAGES_PER_PAGE;
+      const endIndex = pageNumber * IMAGES_PER_PAGE;
+      const pageItems = allImagesData.slice(startIndex, endIndex);
+
+      // Create elements for each item
+      pageItems.forEach(item => {
+        // <figure>
+        const figure = document.createElement('figure');
+
+        // <a> (wraps the img)
+        const link = document.createElement('a');
+        link.href = 'CaptionImages/' + item.filename; 
+        link.target = '_blank';  
+        link.rel = 'noopener';
+
+        // <img>
+        const img = document.createElement('img');
+        img.src = 'CaptionImages/' + item.filename;
+        img.alt = item.caption || 'Gallery image';
+
+        // <figcaption>
+        const caption = document.createElement('figcaption');
+        caption.textContent = item.caption || '';
+
+        // Build the figure
+        link.appendChild(img);
+        figure.appendChild(link);
+        figure.appendChild(caption);
+
+        galleryContainer.appendChild(figure);
+      });
+
+      // Update page info text, e.g. "Page 1 of 5"
+      pageInfo.textContent = `Page ${pageNumber} of ${totalPages}`;
+    }
+
+    // 3. Update next/prev button states
+    function updatePaginationButtons() {
+      prevBtn.disabled = (currentPage === 1);
+      nextBtn.disabled = (currentPage === totalPages);
+    }
+
+    // 4. Button event listeners
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPage(currentPage);
+        updatePaginationButtons();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderPage(currentPage);
+        updatePaginationButtons();
+      }
+    });
   </script>
-
-<script>
-  // Dynamically load the shared navigation
-  fetch('navigation.html')
-    .then(response => response.text())
-    .then(navHtml => {
-      document.getElementById('nav-placeholder').innerHTML = navHtml;
-    })
-    .catch(err => console.error('Error fetching navigation:', err));
-</script>
-
 </body>
 </html>
